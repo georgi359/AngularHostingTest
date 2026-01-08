@@ -58,6 +58,11 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "github-pages": {
+              "prerender": false,
+              "ssr": false,
+              "baseHref": "/AngularHostingTest/"
             }
           },
           "defaultConfiguration": "production"
