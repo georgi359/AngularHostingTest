@@ -30,6 +30,9 @@ jobs:
         run: |
           npm run build -- --configuration github-pages --base-href="/${{ github.event.repository.name }}/"
 
+      - name: Fix SPA routing for GitHub Pages
+        run: cp dist/example-proj/index.html dist/example-proj/404.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
