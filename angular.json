@@ -60,6 +60,7 @@
               "sourceMap": true
             },
             "github-pages": {
+              "outputMode": "static",
               "prerender": false,
               "ssr": false,
               "baseHref": "/AngularHostingTest/"
