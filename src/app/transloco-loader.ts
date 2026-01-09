@@ -1,14 +1,21 @@
-import { inject, Injectable } from "@angular/core";
-import { Translation, TranslocoLoader } from "@jsverse/transloco";
-import { HttpClient } from "@angular/common/http";
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Translation, TranslocoLoader } from '@jsverse/transloco';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
-    private http = inject(HttpClient);
+  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
-    getTranslation(lang: string) {
-        //return this.http.get<Translation>(`/i18n/${lang}.json`);
-        // load translation files from Angular assets so they're served at /assets/i18n/*.json
-        return this.http.get<Translation>(`http://localhost:5173/assets/i18n/${lang}.json`);
+  getTranslation(lang: string) {
+    // 🚫 SSR / prerender: do NOT fetch over HTTP
+    if (isPlatformServer(this.platformId)) {
+      return of({});
     }
+
+    // ✅ Browser: load from assets
+    return this.http.get<Translation>(`./assets/i18n/${lang}.json`);
+  }
 }
